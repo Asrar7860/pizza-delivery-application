@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashu's Pizza Hut - Your Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 30px; }
+        table { width: 70%; margin: 0 auto; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #ffd700; }
+        input[type=number] { width: 50px; }
+        .btn { margin-top: 20px; padding: 10px 20px; cursor: pointer; }
+        .checkout-btn { background-color: #4CAF50; color: white; border: none; border-radius: 5px; }
+        .update-btn { background-color: #2196F3; color: white; border: none; border-radius: 5px; }
+        a { text-decoration: none; }
+        .links {
+            width: 70%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Your Shopping Cart</h2>
+
+<form method="POST" action="{{ url_for('view_cart') }}">
+    <table>
+    <thead>
+        <tr>
+            <th>Item Name</th><th>Unit Price</th><th>Quantity</th><th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>₹{{ item.price }}</td>
+            <td>
+                <input type="number" name="qty_{{ item.id }}" value="{{ item.quantity }}" min="0">
+            </td>
+            <td>₹{{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+            <td>₹{{ total_price }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <div class="links">
+        <button type="submit" class="btn update-btn">Update Cart</button>
+        <a href="{{ url_for('order') }}" class="btn checkout-btn">Proceed to Checkout</a>
+    </div>
+</form>
+
+<div style="width: 70%; margin: 20px auto; text-align: left;">
+    <a href="{{ url_for('index') }}">←

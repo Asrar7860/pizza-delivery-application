@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancel Order - Ashu's Pizza Hut</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #c77c00;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #other_reason_box {
+            margin-top: 12px;
+            display: none;
+        }
+        button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 14px;
+            background-color: #c40000;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #a30000;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: #c40000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cancel Your Order</h2>
+        <form method="post">
+            <label for="reason">Select a reason for cancellation:</label>
+            <select name="reason" id="reason" required onchange="toggleOtherReason()">
+                <option value="">-- Please choose a reason --</option>
+                {% for reason in reasons %}
+                <option value="{{ reason }}">{{ reason }}</option>
+                {% endfor %}
+            </select>
+            <div id="other_reason_box">
+                <label for="other_reason">Please specify your reason:</label>
+                <textarea name="other_reason" id="other_reason" rows="3" placeholder="Type your reason here..." maxlength="500"></textarea>
+            </div>
+            <button type="submit">Submit Cancellation</button>
+        </form>
+        <a href="{{ url_for('track_order') }}" class="back-link">&larr; Back to Track Order</a>
+    </div>
+
+    <script>
+        function toggleOtherReason() {
+            const select = document.getElementById('reason');
+            const otherBox = document.getElementById('other_reason_box');
+            if (select.value === 'Other (please specify)') {
+                otherBox.style.display = 'block';
+                document.getElementById('other_reason').required = true;
+            } else {
+                otherBox.style.display = 'none';
+                document.getElementById('other_reason').required = false;
+                document.getElementById('other_reason').value = '';
+            }
+        }
+        // Initialize on page load in case of validation errors
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleOtherReason();
+        });
+    </script>
+</body>
+</html>

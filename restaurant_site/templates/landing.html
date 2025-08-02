@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashu's Pizza Hut</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='landing_bg.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: #ffd700;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            margin: 120px auto;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        a.button {
+            display: block;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #ffd700;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+        a.button:hover {
+            background-color: #e6c200;
+        }
+        .contact-info {
+            margin-top: 40px;
+            font-size: 1rem;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .contact-info strong {
+            color: #ffd700;
+        }
+        /* New track order link */
+        .track-order-link {
+            margin-top: 30px;
+        }
+        .track-order-link a {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .track-order-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Ashu's Pizza Hut</h1>
+        <a href="{{ url_for('customer_login') }}" class="button">User Login</a>
+        <a href="{{ url_for('customer_signup') }}" class="button">User Signup</a>
+        <a href="{{ url_for('admin_login') }}" class="button">Admin Login</a>
+
+        <div class="track-order-link">
+            <a href="{{ url_for('track_order') }}">Track Your Order</a>
+        </div>
+
+        <div class="contact-info">
+            <p><strong>Mobile:</strong> +91 9876543210</p>
+            <p><strong>Email:</strong> ashu.pizzahut@gmail.com</p>
+            <p><strong>Opening Hours:</strong> Mon-Sun: 11:00 AM - 11:00 PM</p>
+        </div>
+    </div>
+</body>
+</html>

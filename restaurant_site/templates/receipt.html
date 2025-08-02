@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashu's Pizza Hut - Order Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{{ url_for("static", filename="receipt_bg.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 30px;
+            color: #333;
+        }
+        .receipt-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            color: #c49000;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #ffd700;
+            color: #000;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:last-child td {
+            font-weight: bold;
+            background-color: #ffee88;
+        }
+        a.button, a.cancel-btn {
+            margin-top: 20px;
+            display: block;
+            width: max-content;
+            padding: 12px 30px;
+            border-radius: 7px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+        a.button {
+            background-color: #4caf50;
+            color: white;
+        }
+        a.button:hover {
+            background-color: #3e8e41;
+        }
+        a.cancel-btn {
+            background-color: #f44336;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: pointer;
+        }
+        a.cancel-btn:hover {
+            background-color: #c62828;
+        }
+        .cancel-info {
+            margin-top: 15px;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h2>Order Receipt</h2>
+
+        <p><strong>Order ID:</strong> {{ receipt['order_group_id'] }}</p>
+        <p><strong>Name:</strong> {{ receipt['customer_name'] }}</p>
+        <p><strong>Address:</strong> {{ receipt['address'] }}</p>
+        <p><strong>Phone:</strong> {{ receipt['phone'] }}</p>
+        <p><strong>Email:</strong> {{ receipt['email'] }}</p>
+
+        {% if estimated_delivery_time %}
+        <p><strong>Estimated Delivery Time:</strong> {{ estimated_delivery_time.strftime('%I:%M %p, %d %b %Y') }}</p>
+        {% endif %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Unit Price (₹)</th>
+                    <th>Subtotal (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in receipt['items'] %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.unit_price }}</td>
+                    <td>₹{{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td>₹{{ receipt['total_price'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if order_row %}
+            {% if not order_row.cancelled and order_row.status != 'Delivered' %}
+                <a href="{{ url_for('cancel_order', order_id=order_row.id, order_group_id=order_row.order_group_id) }}" class="cancel-btn">Cancel Order</a>
+            {% elif order_row.cancelled %}
+                <div class="cancel-info">
+                    This order was cancelled.<br>
+                    Reason: {{ order_row.cancellation_reason }}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="button">Back to Menu</a>
+    </div>
+</body>
+</html>

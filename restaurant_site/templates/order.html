@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashu's Pizza Hut - Place Order</title>
+    <style>
+        /* Your CSS styling here or from previous messages */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #ffd700;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #333;
+            padding: 30px;
+            border-radius: 12px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffd700;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+        }
+        textarea { resize: vertical; }
+        table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        th, td {
+            background-color: #444;
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #555;
+        }
+        th { background-color: #ffd700; color: #000; }
+        tr:last-child td {
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+        button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 15px;
+            background-color: #ffd700;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #000;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e6c200;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Place Your Order</h1>
+
+        {% if cart_items and cart_items|length > 0 %}
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price (₹)</th>
+                        <th>Subtotal (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.price }}</td>
+                            <td>₹{{ item.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3">Total Price</td>
+                        <td>₹{{ total_price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit">Place Order</button>
+        </form>
+        {% else %}
+            <p>Your cart is empty. Please add items before ordering.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

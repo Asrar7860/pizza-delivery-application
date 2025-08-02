@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Estimated Time - Ashu's Pizza Hut Admin</title>
+    <style>
+        /* Same as above - keep consistent styling */
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 40px; }
+        .form-container {
+            background: white;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 { color: #ffd700; margin-bottom: 20px; }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            width: 100%;
+        }
+        button:hover { background-color: #1565c0; }
+        a.back-link {
+            display: block;
+            margin-top: 25px;
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+        }
+        a.back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Update Estimated Time for Order #{{ order.id }}</h2>
+        <form method="POST">
+            <label for="estimated_time">Estimated Time (e.g., 30 minutes, 7:00 PM):</label>
+            <input type="text" id="estimated_time" name="estimated_time" value="{{ order.estimated_time or '' }}" placeholder="Enter estimated time" required>
+            <button type="submit">Save Estimated Time</button>
+        </form>
+        <a href="{{ url_for('view_orders') }}" class="back-link">&larr; Back to Orders</a>
+    </div>
+</body>
+</html>

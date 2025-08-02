@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login - Ashu's Pizza Hut</title>
+    <style>
+        /* Full page background */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            /* Background image from static folder */
+            background: url('{{ url_for("static", filename="admin_bg.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffd700;
+        }
+        /* Semi-transparent form container */
+        .login-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+            width: 350px;
+            max-width: 90%;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 24px;
+            font-weight: bold;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #ffd700;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #000;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 12px #ffd700aa;
+        }
+        button:hover {
+            background-color: #e6c200;
+            box-shadow: 0 0 18px #ffea00cc;
+        }
+        .flash-message {
+            margin-top: 15px;
+            color: #ff7777;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 2px #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autofocus>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message">
+                    {% for msg in messages %}
+                        {{ msg }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

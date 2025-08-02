@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashu's Pizza Hut</title>
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='menu_bg.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #ffd700;
+        }
+        .content {
+            background-color: rgba(0, 0, 0, 0.6);
+            max-width: 700px;
+            margin: 60px auto 40px;
+            padding: 30px 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 25px;
+            font-weight: bold;
+            font-size: 2.4rem;
+        }
+        ul.menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        ul.menu-list li {
+            margin: 12px 0;
+            color: #ffd700;
+        }
+        ul.menu-list li form {
+            display: inline;
+            margin-left: 15px;
+        }
+        ul.menu-list li input[type="number"] {
+            width: 50px;
+            padding: 4px;
+            border-radius: 4px;
+            border: none;
+            font-size: 1rem;
+        }
+        ul.menu-list li button {
+            background-color: #ffd700;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+        ul.menu-list li button:hover {
+            background-color: #e6c200;
+        }
+        .btn-container {
+            margin-bottom: 40px;
+        }
+        .login-button {
+            display: inline-block;
+            margin: 0 15px 25px;
+            padding: 12px 28px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #000;
+            background-color: #ffd700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .login-button:hover {
+            background-color: #e6c200;
+        }
+        .order-button {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        .order-button:hover {
+            background-color: #3e8e41;
+        }
+        /* Track order link styling */
+        .track-order-link {
+            margin-top: 20px;
+        }
+        .track-order-link a {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .track-order-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Ashu's Pizza Hut</h1>
+
+        <div class="btn-container">
+            <!-- Customer Login & Signup / Logout buttons -->
+            {% if not session.get('customer_logged_in') %}
+                <a href="{{ url_for('customer_login') }}" class="login-button">Customer Login</a>
+                <a href="{{ url_for('customer_signup') }}" class="login-button">Customer Signup</a>
+            {% else %}
+                <a href="{{ url_for('customer_logout') }}" class="login-button">Customer Logout</a>
+            {% endif %}
+        </div>
+
+        <ul class="menu-list">
+            {% for item in menu %}
+            <li>
+                {{ item.name }} - ₹{{ item.price }}
+                {% if session.get('customer_logged_in') %}
+                <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="POST" style="display:inline;">
+                    <input type="number" name="quantity" min="1" value="1" required>
+                    <button type="submit">Add to Cart</button>
+                </form>
+                {% else %}
+                <span style="margin-left: 20px; font-weight: normal; font-size: 0.9rem; color: #bbb;">
+                    (Login to add to cart)
+                </span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% if session.get('customer_logged_in') %}
+            <a href="{{ url_for('view_cart') }}" class="login-button order-button">View Cart</a>
+            <a href="{{ url_for('order') }}" class="login-button order-button">Place an Order</a>
+
+            <div class="track-order-link">
+                <a href="{{ url_for('track_order') }}">Track Your Order</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

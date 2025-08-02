@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Your Order</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    h1 { margin-bottom: 10px; }
+    .status-info { margin-bottom: 20px; }
+    .btn-cancel {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .btn-cancel:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    .message { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>Track Order</h1>
+
+  <div class="status-info">
+    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <p><strong>Status:</strong> <span id="orderStatus"></span></p>
+    <p><strong>Estimated Delivery Time:</strong> <span id="estimatedTime"></span></p>
+  </div>
+
+  <button id="cancelBtn" class="btn-cancel">Cancel Order</button>
+
+  <div class="message" id="message"></div>
+
+  <script>
+    // Example order data - replace with API call/fetch from backend
+    const order = {
+      id: 'OD1236',
+      status: 'Preparing', // Could be 'Delivered', 'Out for Delivery', 'Cancelled', etc.
+      estimatedDelivery: '2025-07-30 19:30',
+      cancellableStatuses: ['Preparing', 'Order Placed'] // Only allow cancel if in these statuses
+    };
+
+    const orderIdEl = document.getElementById('orderId');
+    const orderStatusEl = document.getElementById('orderStatus');
+    const estimatedTimeEl = document.getElementById('estimatedTime');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const messageEl = document.getElementById('message');
+
+    orderIdEl.textContent = order.id;
+    orderStatusEl.textContent = order.status;
+    estimatedTimeEl.textContent = order.estimatedDelivery;
+
+    // Enable or disable Cancel button based on status
+    if (!order.cancellableStatuses.includes(order.status)) {
+      cancelBtn.disabled = true;
+      messageEl.textContent = 'This order cannot be cancelled at this stage.';
+    }
+
+    cancelBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to cancel this order?')) {
+        // Make API call here to cancel order, e.g.:
+        // fetch('/api/cancelOrder', { method: 'POST', body: JSON.stringify({ orderId: order.id }) })
+
+        // For demo, we'll simulate cancel success:
+        order.status = 'Cancelled';
+        orderStatusEl.textContent = order.status;
+        cancelBtn.disabled = true;
+        messageEl.textContent = 'Your order has been cancelled.';
+      }
+    });
+  </script>
+
+</body>
+</html>

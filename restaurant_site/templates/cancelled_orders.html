@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancelled Orders - Ashu's Pizza Hut</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f8f8;}
+        table { width: 90%; margin: 40px auto; border-collapse: collapse;}
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left;}
+        th { background-color: #ffd700; }
+        tr:nth-child(even) { background-color: #f9f9f9;}
+    </style>
+</head>
+<body>
+<h1 style="text-align:center;">Cancelled Orders</h1>
+<a href="{{ url_for('view_orders') }}" style="margin:20px 40px;display:block;">Back to All Orders</a>
+{% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Cancellation Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_group_id }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.email }}</td>
+            <td>{{ order.item }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.total }}</td>
+            <td>{{ order.cancellation_reason }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="text-align:center;margin-top:40px;">No cancelled orders.</p>
+{% endif %}
+</body>
+</html>
